@@ -2,6 +2,22 @@ import Header from "../components/Header";
 import React, { Component } from "react";
 import Link from "next/link";
 
+function getUrlParts(url) {
+    var a = document.createElement('a');
+    a.href = url;
+
+    return {
+        href: a.href,
+        host: a.host,
+        hostname: a.hostname,
+        port: a.port,
+        pathname: a.pathname,
+        protocol: a.protocol,
+        hash: a.hash,
+        search: a.search
+    };
+}
+
 class Index extends Component {
     constructor() {
         super();
@@ -24,13 +40,14 @@ class Index extends Component {
             });
         });
     }
+    
     render() {
         const posts = this.state.posts.map((post, index) => {
             return (
                 <ul key={index}>
                     <li>
                         <strong>Title:</strong>{" "}
-                        <Link href={post.link}>
+                        <Link as={`/p${getUrlParts(post.link).pathname}`} href={`/post?title=${post.title.rendered}`}>
                             <a>
                                 {post.title.rendered}
                             </a>
